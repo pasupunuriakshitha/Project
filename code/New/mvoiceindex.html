@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Voice Assistant</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="main-container">
+    <p id="input-area">...</p>
+    <p id="output-area">...</p>
+    <label for="language-selector">Select Language:</label>
+    <select id="language-selector" onchange="changeLanguage()">
+      <option value="en-US">English</option>
+      <option value="te">Telugu</option>
+      <option value="hi">Hindi</option>
+    </select>
+    <button id="listen-button" onclick="listen()">Listen</button>
+  </div>
+
+  <script>
+    const speechSynthesis = window.speechSynthesis;
+
+    function changeLanguage() {
+      const languageSelector = document.getElementById('language-selector');
+      const selectedLanguage = languageSelector.value;
+
+      const existingScripts = document.querySelectorAll('script[data-language]');
+      existingScripts.forEach(script => {
+        script.remove();
+      });
+
+      const script = document.createElement('script');
+      script.setAttribute('data-language', selectedLanguage);
+      if (selectedLanguage === 'en-US') {
+        script.src = 'escript.js';
+      } else if (selectedLanguage === 'te') {
+        script.src = 'tscript.js';
+      } else if (selectedLanguage === 'hi') {
+        script.src = 'hscript.js';
+      }
+
+      document.head.appendChild(script);
+    }
+
+    function listen() {
+      let inputArea = document.getElementById('input-area');
+      let outputArea = document.getElementById('output-area');
+
+      var recognition = new webkitSpeechRecognition();
+      recognition.lang = "en-US"; // English language code
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        let transcript = event.results[0][0].transcript;
+        transcript = transcript.trim().toLowerCase();
+        inputArea.textContent = transcript.substring(0, transcript.length - 1);
+
+        // Process the transcript based on the selected language
+        if (transcript.includes("hello")) {
+          outputArea.textContent = "Hello, User";
+          speak("Hello, User");
+        } else {
+          outputArea.textContent = "Sorry, I don't understand";
+          speak("Sorry, I don't understand");
+        }
+      };
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+</body>
+</html>

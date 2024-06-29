@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="homestyle.css">
+    <link rel="stylesheet" href="voice.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="script.js"></script>
+    <title>Medidoct</title>
+</head>
+<body>
+    <header class="header">
+        <a href="" class="logo"><b>Medidoct</b>
+        </a>
+        <nav class="nav-items">
+          <a href="./homeindex.html">Home</a>
+          <a href="./medindex.html">Medicine</a>
+          <a href="./symindex.html">Symptoms</a>
+          <a href="./genindex.html">Generic</a>
+          <a href="./contact.html">Contact</a>
+          <button  class="btnLogin-popup"> <a href="./dasindex.html">Register</a></button>
+        </nav>
+      </header>
+      <main>
+        <div class="intro">
+            <h1><b>Welcome to <b style="color: red;">Medidoct</b></h1>
+            <div id="search-container">
+              <input type="text" id="search-input" placeholder="Type or speak...">
+              <button id="search-button">Search</button>
+              <button id="voice-button">Voice</button>
+          </div>
+          <div id="output-container">
+              <div id="output-box"></div>
+          </div>
+      
+          <script>
+              const searchInput = document.getElementById('search-input');
+              const searchButton = document.getElementById('search-button');
+              const voiceButton = document.getElementById('voice-button');
+              const outputBox = document.getElementById('output-box');
+              let recognition;
+      
+              // Check if the browser supports the Web Speech API
+              if ('webkitSpeechRecognition' in window) {
+                  recognition = new webkitSpeechRecognition();
+      
+                  recognition.continuous = false;
+                  recognition.interimResults = false;
+                  recognition.lang = 'en-US';
+      
+                  voiceButton.addEventListener('click', () => {
+                      recognition.start();
+                      searchInput.value = '';
+                      searchInput.placeholder = 'Listening...';
+                  });
+      
+                  recognition.onresult = (event) => {
+                      const transcript = event.results[0][0].transcript.toLowerCase();
+                      const cleanedTranscript = cleanTranscript(transcript);
+                      searchInput.value = cleanedTranscript;
+      
+                      if (cleanedTranscript === 'hello') {
+                          appendToOutput('Assistant: Hellouser');
+                          appendToOutput('Assistant: Hello again!');
+                          appendToOutput('Assistant: Greetings!');
+                          appendToOutput('Assistant: How are you?');
+                          speak('Hellouser. Hello again! Greetings! How are you?');
+                      } 
+                      else if (cleanedTranscript === 'fever') {
+                          appendToOutput('Medicine name: Paracetamol');
+                          appendToOutput('Advantages   : effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness');
+                          appendToOutput('Disadvantages: vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          appendToOutput('Dosage       : Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time.vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          speak(' Paracetamol.Advantges-effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness.Disadvantages - vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them.Dosage - Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time');
+                      } 
+                      else if (userInput === 'cold') {
+                          appendToOutput('Medicine name    :Cetirizine, Paracetamol and Phenylephrine ');
+                          appendToOutput('Advantages   : effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness');
+                          appendToOutput('Disadvantages: vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          appendToOutput('Dosage       : Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time.vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          speak(' Paracetamol.Advantges-effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness.Disadvantages - vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them.Dosage - Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time');
+                      }
+                      else if (userInput === 'cough') {
+                          appendToOutput('Medicine name    : Cofsils Naturals Cough Syrup Bottle 100 Ml , Zecuf Cough Syrup 100ml ');
+                          appendToOutput('Advantages   : It relieves allergy symptoms such as runny nose, stuffy nose, sneezing, watery eyes, and congestion or stuffiness. It also thins mucus in the nose, windpipe, and lungs, making it easier to cough out.');
+                          appendToOutput('Disadvantages: headache, stomach upset, dizziness, tiredness, and dry mouth.');
+                          appendToOutput('Dosage       : Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole.');
+                          speak('Cofsils Naturals Cough Syrup Bottle 100 Ml , Zecuf Cough Syrup 100ml .Advantages It relieves allergy symptoms such as runny nose, stuffy nose, sneezing, watery eyes, and congestion or stuffiness. It also thins mucus in the nose, windpipe, and lungs, making it easier to cough out.Disadvantages headache, stomach upset, dizziness, tiredness, and dry mouth.Dosage Take this medicine in the dose and duration as advised by your doctor Swallow it as a whole.');
+                      }
+                      else if (userInput === 'dry cough') {
+                          appendToOutput('Medicine name: Benadryl DR syrup ');
+                          appendToOutput('Advantages   : the relief of persistent dry cough which does not produce any sputum or mucus. It is also used to provide relief from throat irritation, dry itchy feeling in the throat, and sore throat');
+                          speak('enadryl DR syrup . Advantages-the relief of persistent dry cough which does not produce any sputum or mucus. It is also used to provide relief from throat irritation, dry itchy feeling in the throat, and sore throat');
+                      }  
+                      else if (userInput === 'wet cough') {
+                          appendToOutput('Medicine name:Koflet cough syrup ');
+                          appendToOutput('Advantages   :an expectorant formulated with natural herbal actives and is ideal for relieving wet cough. The ingredients of the syrup help alleviate other symptoms like runny nose and provide you effective relief');
+                          speak('Koflet cough syrup. Advantages-an expectorant formulated with natural herbal actives and is ideal for relieving wet cough. The ingredients of the syrup help alleviate other symptoms like runny nose and provide you effective relief"');
+                      } 
+                      else if (userInput === 'headache') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                       }
+                       else if (userInput === 'head pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'back pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'tooth pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'teeth pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'muscle pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'joint pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'menstrual pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'migrane') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'nerve pain') {
+                          appendToOutput('Medicine name: DOLO650 ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-dolo650 .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'rheumatic pains') {
+                          appendToOutput('Medicine name: DOLO650 ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-dolo650 .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'sneezing') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'runny nose') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'stuffy nose') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'watery eyes') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'itchy eyes') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'diarrhea') {
+                          appendToOutput('Medicine name: Roko 2 MG Capsule (10)');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one capsule dose per day. You should not take more than one capsule in 24 hours');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one capsule dose per day. You should not take more than one capsule in 24 hours.');
+                      }
+                      else if (userInput === 'pimples') {
+                          appendToOutput('medication for skincare depends upon skintype');
+                          speak('medication for skincare depends upon skintype.consult dermetologist to know medicines for your sknintype');
+                      }
+                      else if (userInput === 'sprain') {
+                          appendToOutput('moov spray ');
+                          speak('spray moov on the sprained part');
+                      }
+                      else if (userInput === 'inflammation') {
+                          appendToOutput('moov spray ');
+                          speak('spray moov on the swollen part');
+                      }
+                      else if (userInput === 'sciatica') {
+                          appendToOutput('moov spray or prefer yoga asanas ');
+                          speak('spray moov on the thigh or leg part but its good to do yoga');
+                      }
+                      else if (userInput === 'bone pain') {
+                          appendToOutput('maggase well with coconut oil better to consult Physiotherapist');
+                          speak('maggase well with coconut oil better to consult Physiotherapist');
+                      }
+                      else if (userInput === 'stomach pain') {
+                          appendToOutput('Place a hot water bottle or heated wheat bag on your abdomen.Soak in a warm bath.Drink plenty of clear fluids such as water.Reduce your intake of coffee, tea and alcohol as these can make the pain worse.');
+                          speak('Place a hot water bottle or heated wheat bag on your abdomen.Soak in a warm bath.Drink plenty of clear fluids such as water.Reduce your intake of coffee, tea and alcohol as these can make the pain worse.');
+                      }
+                      else if (userInput === 'burn') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'burns') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'minor burn injury') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'cuts') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'sores') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'rashes') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'abrasions') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem. consult doctor ');
+                      }
+                      else if (userInput === 'ear pains') {
+                          appendToOutput('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                          speak('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                      }
+                      else if (userInput === 'ear pain') {
+                          appendToOutput('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                          speak('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                      }
+                      else if (userInput === 'bleeding nose') {
+                          appendToOutput('Sit up and lean forward. Keep the head up');
+                          appendToOutput('Gently blow your nose. This will clear any blood clots');
+                          appendToOutput('Pinch the nose. Use the thumb and a finger to pinch both nostrils shut');
+                          appendToOutput('Prevent another nosebleed. Do not pick or blow the nose');
+                          appendToOutput('If you have another nosebleed, try first-aid steps again consult doctor');
+                          speak('Sit up and lean forward. Keep the head up.Gently blow your nose. This will clear any blood clots.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Prevent another nosebleed. Do not pick or blow the nose.If you have another nosebleed, try first-aid steps again consult doctor');
+                      }
+                      else if (userInput === 'nose bleeding') {
+                          appendToOutput('Sit up and lean forward. Keep the head up');
+                          appendToOutput('Gently blow your nose. This will clear any blood clots');
+                          appendToOutput('Pinch the nose. Use the thumb and a finger to pinch both nostrils shut');
+                          appendToOutput('Prevent another nosebleed. Do not pick or blow the nose');
+                          appendToOutput('If you have another nosebleed, try first-aid steps again consult doctor');
+                          speak('Sit up and lean forward. Keep the head up.Gently blow your nose. This will clear any blood clots.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Prevent another nosebleed. Do not pick or blow the nose.If you have another nosebleed, try first-aid steps again consult doctor');
+                      }
+                      else if (userInput === 'nose bleeds') {
+                          appendToOutput('Sit up and lean forward. Keep the head up');
+                          appendToOutput('Gently blow your nose. This will clear any blood clots');
+                          appendToOutput('Pinch the nose. Use the thumb and a finger to pinch both nostrils shut');
+                          appendToOutput('Prevent another nosebleed. Do not pick or blow the nose');
+                          appendToOutput('If you have another nosebleed, try first-aid steps again consult doctor');
+                          speak('Sit up and lean forward. Keep the head up.Gently blow your nose. This will clear any blood clots.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Prevent another nosebleed. Do not pick or blow the nose.If you have another nosebleed, try first-aid steps again consult doctor');
+                      }
+                      else if (userInput === 'vomitings') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'vomiting') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'blood vomiting') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'blood vomitings') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'blood in vomitings') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'influenza') {
+                          appendToOutput('medicine name - zanamivir (Relenza)');
+                          appendToOutput('These medications may shorten your illness by a day or so and help prevent serious complications.');
+                          appendToOutput('Zanamivir is inhaled through a device similar to an asthma inhaler.');
+                          appendToOutput('dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation). ');
+                          appendToOutput('The recommended dose of RELENZA for treatment of influenza in adults and pediatric patients aged 7 years and older is 10 mg twice daily (approximately 12 hours apart) for 5 days');
+                          appendToOutput('Two doses should be taken on the first day of treatment whenever possible provided there is at least 2 hours between doses');
+                          appendToOutput('On subsequent days, doses should be about 12 hours apart (e.g., morning and evening) at approximately the same time each day');
+                          appendToOutput('The safety and efficacy of repeated treatment courses have not been studied');
+                          appendToOutput('Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy food Call your doctor Manage fever Try to sleep');
+                          speak('medicine name - zanamivir (Relenza).These medications may shorten your illness by a day or so and help prevent serious complications.Zanamivir is inhaled through a device similar to an asthma inhaler.dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation) Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy');
+                      }
+                      else if (userInput === 'flu') {
+                          appendToOutput('medicine name - zanamivir (Relenza)');
+                          appendToOutput('These medications may shorten your illness by a day or so and help prevent serious complications.');
+                          appendToOutput('Zanamivir is inhaled through a device similar to an asthma inhaler.');
+                          appendToOutput('dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation). ');
+                          appendToOutput('The recommended dose of RELENZA for treatment of influenza in adults and pediatric patients aged 7 years and older is 10 mg twice daily (approximately 12 hours apart) for 5 days');
+                          appendToOutput('Two doses should be taken on the first day of treatment whenever possible provided there is at least 2 hours between doses');
+                          appendToOutput('On subsequent days, doses should be about 12 hours apart (e.g., morning and evening) at approximately the same time each day');
+                          appendToOutput('The safety and efficacy of repeated treatment courses have not been studied');
+                          appendToOutput('Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy food Call your doctor Manage fever Try to sleep');
+                          speak('medicine name - zanamivir (Relenza).These medications may shorten your illness by a day or so and help prevent serious complications.Zanamivir is inhaled through a device similar to an asthma inhaler.dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation) Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy');
+                      }
+                      else if (userInput === 'hyper tension') {
+                          appendToOutput('medicine name - medicines to hyper tension should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'high blood pressure') {
+                          appendToOutput('medicine name - medicines to hyper tension should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'high b p') {
+                          appendToOutput('medicine name - medicines to hyper tension should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'high bp') {
+                          appendToOutput('medicine name - medicines to high bp should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'vomit') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                  };
+                  recognition.onend = () => {
+                      searchInput.placeholder = 'Type or speak...';
+                  };
+              } else {
+                  voiceButton.disabled = true;
+                  voiceButton.textContent = 'Voice not supported';
+              }
+      
+              // Function to speak text
+              function speak(text) {
+                  const speechSynthesis = window.speechSynthesis;
+                  const utterance = new SpeechSynthesisUtterance(text);
+                  speechSynthesis.speak(utterance);
+              }
+      
+              // Handle manual search button click
+              searchButton.addEventListener('click', () => {
+                  const userInput = searchInput.value.toLowerCase();
+                  if (userInput === 'hello') {
+                      appendToOutput('Assistant: Hellouser');
+                      appendToOutput('Assistant: Hello again!');
+                      appendToOutput('Assistant: Greetings!');
+                      appendToOutput('Assistant: How are you?');
+                      speak('Hellouser. Hello again! Greetings! How are you?');
+                  }
+                  else if (userInput === 'fever') {
+                          appendToOutput('Medicine name: Paracetamol');
+                          appendToOutput('Advantages   : effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness');
+                          appendToOutput('Disadvantages: vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          appendToOutput('Dosage       : Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time.vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          speak(' take Paracetamol.Advantges-effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness.Disadvantages - vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them.Dosage - Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time');
+                      }
+                      else if (userInput === 'cold') {
+                          appendToOutput('Medicine name    :Cetirizine, Paracetamol and Phenylephrine ');
+                          appendToOutput('Advantages   : effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness');
+                          appendToOutput('Disadvantages: vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          appendToOutput('Dosage       : Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time.vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them');
+                          speak('use medicine Paracetamol.Advantges-effectively relieves symptoms of the common cold such as blocked nose, runny nose, watery eyes, sneezing, and congestion or stuffiness.Disadvantages - vomiting,dizziness,sleepiness Most side effects do not require any medical attention and disappear as your body adjusts to the medicine. Consult your doctor if they persist or if you’re worried about them.Dosage - Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole. Do not chew, crush or break it. Cold 3 Kit may be taken with or without food, but it is better to take it at a fixed time');
+                      }
+                      else if (userInput === 'cough') {
+                          appendToOutput('Medicine name: Cofsils Naturals Cough Syrup Bottle 100 Ml , Zecuf Cough Syrup 100ml ');
+                          appendToOutput('Advantages   : It relieves allergy symptoms such as runny nose, stuffy nose, sneezing, watery eyes, and congestion or stuffiness. It also thins mucus in the nose, windpipe, and lungs, making it easier to cough out.');
+                          appendToOutput('Disadvantages: headache, stomach upset, dizziness, tiredness, and dry mouth.');
+                          appendToOutput('Dosage       : Take this medicine in the dose and duration as advised by your doctor. Swallow it as a whole.');
+                          speak('Cofsils Naturals Cough Syrup Bottle 100 Ml , Zecuf Cough Syrup 100ml .Advantages It relieves allergy symptoms such as runny nose, stuffy nose, sneezing, watery eyes, and congestion or stuffiness. It also thins mucus in the nose, windpipe, and lungs, making it easier to cough out.Disadvantages headache, stomach upset, dizziness, tiredness, and dry mouth.Dosage Take this medicine in the dose and duration as advised by your doctor Swallow it as a whole.');
+                      }
+                      else if (userInput === 'dry cough') {
+                          appendToOutput('Medicine name: Benadryl DR syrup ');
+                          appendToOutput('Advantages   : the relief of persistent dry cough which does not produce any sputum or mucus. It is also used to provide relief from throat irritation, dry itchy feeling in the throat, and sore throat');
+                          speak('enadryl DR syrup . Advantages-the relief of persistent dry cough which does not produce any sputum or mucus. It is also used to provide relief from throat irritation, dry itchy feeling in the throat, and sore throat');
+                      } 
+                      else if (userInput === 'wet cough') {
+                          appendToOutput('Medicine name:Koflet cough syrup ');
+                          appendToOutput('Advantages   :an expectorant formulated with natural herbal actives and is ideal for relieving wet cough. The ingredients of the syrup help alleviate other symptoms like runny nose and provide you effective relief');
+                          speak('Koflet cough syrup. Advantages-an expectorant formulated with natural herbal actives and is ideal for relieving wet cough. The ingredients of the syrup help alleviate other symptoms like runny nose and provide you effective relief"');
+                      } 
+                      else if (userInput === 'headache') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'back pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'tooth pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage-  Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'teeth pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage-  Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'muscle pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'joint pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'menstrual pain') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'migrane') {
+                          appendToOutput('Medicine name: saridon ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-saridon .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'nerve pain') {
+                          appendToOutput('Medicine name: DOLO650 ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-dolo650 .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'rheumatic pains') {
+                          appendToOutput('Medicine name: DOLO650 ');
+                          appendToOutput('Dosage       : Adults: 1 to 2 tablets. Adolescents aged 12 to 16 years take 1 tablet');
+                          appendToOutput('how to use   : Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking')
+                          speak('Medicine name-dolo650 .Dosage- Adults take 1 to 2 tablets. Adolescents aged 12-16 years take 1 tablet .Take 1 tablet every 3 tp 4 hours. Avoid exceeding 3 tablets per day. Do not take this medicine if you are allergic to any of its ingredients. Consult your doctor before taking');  
+                      }
+                      else if (userInput === 'sneezing') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'runny nose') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'stuffy nose') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'watery eyes') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'itchy eyes') {
+                          appendToOutput('Medicine name:  Cetirizine');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one 10-milligram (mg) dose per day. You should not take more than 10 mg in 24 hours. Your doctor may recommend a 5-mg dose once or twice per day if your allergies are mild');
+                      }
+                      else if (userInput === 'diarrhea') {
+                          appendToOutput('Medicine name: Roko 2 MG Capsule (10)');
+                          appendToOutput('Dosage       : The usual dosage for adults younger than 65 years and children who are 6 years and older is one capsule dose per day. You should not take more than one capsule in 24 hours');
+                          speak('Medicine name-Cetirizine .dosage-The usual dosage for adults younger than 65 years and children who are 6 years and older is one capsule dose per day. You should not take more than one capsule in 24 hours.');
+                      }
+                      else if (userInput === 'pimples') {
+                          appendToOutput('medication for skincare depends upon skintype');
+                          speak('medication for skincare depends upon skintype.consult dermetologist to know medicines for your sknintype');
+                      }
+                      else if (userInput === 'sprain') {
+                          appendToOutput('moov spray ');
+                          speak('spray moov on the sprained part');
+                      }
+                      else if (userInput === 'inflammation') {
+                          appendToOutput('moov spray ');
+                          speak('spray moov on the swollen part');
+                      }
+                      else if (userInput === 'sciatica') {
+                          appendToOutput('moov spray or prefer yoga asanas ');
+                          speak('spray moov on the thigh or leg part but its good to do yoga');
+                      }
+                      else if (userInput === 'bone pain') {
+                          appendToOutput('maggase well with coconut oil better to consult Physiotherapist');
+                          speak('maggase well with coconut oil better to consult Physiotherapist');
+                      }
+                      else if (userInput === 'stomach pain') {
+                          appendToOutput('Place a hot water bottle or heated wheat bag on your abdomen.Soak in a warm bath.Drink plenty of clear fluids such as water.Reduce your intake of coffee, tea and alcohol as these can make the pain worse.');
+                          speak('Place a hot water bottle or heated wheat bag on your abdomen.Soak in a warm bath.Drink plenty of clear fluids such as water.Reduce your intake of coffee, tea and alcohol as these can make the pain worse.');
+                      }
+                      else if (userInput === 'burn') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'burns') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'minor burn injury') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'cuts') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'sores') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'rashes') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem . consult doctor ');
+                      }
+                      else if (userInput === 'abrasions') {
+                          appendToOutput('apply BURNOL cream or treat it with aloe vera or neem and consult doctor');
+                          speak('apply BURNOL cream or treat it with aloe vera or neem. consult doctor ');
+                      }
+                      else if (userInput === 'ear pains') {
+                          appendToOutput('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                          speak('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                      }
+                      else if (userInput === 'ear pain') {
+                          appendToOutput('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                          speak('hold a warm cloth or heat pack along the outside of your ear.taking pain relief medicines such as paracetamol or ibuprofen.sleeping with your head resting on 2 pillows (or more)');
+                      }
+                      else if (userInput === 'bleeding nose') {
+                          appendToOutput('Sit up and lean forward. Keep the head up');
+                          appendToOutput('Gently blow your nose. This will clear any blood clots');
+                          appendToOutput('Pinch the nose. Use the thumb and a finger to pinch both nostrils shut');
+                          appendToOutput('Prevent another nosebleed. Do not pick or blow the nose');
+                          appendToOutput('If you have another nosebleed, try first-aid steps again consult doctor');
+                          speak('Sit up and lean forward. Keep the head up.Gently blow your nose. This will clear any blood clots.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Prevent another nosebleed. Do not pick or blow the nose.If you have another nosebleed, try first-aid steps again consult doctor');
+                      }
+                      else if (userInput === 'nose bleeding') {
+                          appendToOutput('Sit up and lean forward. Keep the head up');
+                          appendToOutput('Gently blow your nose. This will clear any blood clots');
+                          appendToOutput('Pinch the nose. Use the thumb and a finger to pinch both nostrils shut');
+                          appendToOutput('Prevent another nosebleed. Do not pick or blow the nose');
+                          appendToOutput('If you have another nosebleed, try first-aid steps again consult doctor');
+                          speak('Sit up and lean forward. Keep the head up.Gently blow your nose. This will clear any blood clots.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Prevent another nosebleed. Do not pick or blow the nose.If you have another nosebleed, try first-aid steps again consult doctor');
+                      }
+                      else if (userInput === 'nose bleeds') {
+                          appendToOutput('Sit up and lean forward. Keep the head up');
+                          appendToOutput('Gently blow your nose. This will clear any blood clots');
+                          appendToOutput('Pinch the nose. Use the thumb and a finger to pinch both nostrils shut');
+                          appendToOutput('Prevent another nosebleed. Do not pick or blow the nose');
+                          appendToOutput('If you have another nosebleed, try first-aid steps again consult doctor');
+                          speak('Sit up and lean forward. Keep the head up.Gently blow your nose. This will clear any blood clots.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Pinch the nose. Use the thumb and a finger to pinch both nostrils shut.Prevent another nosebleed. Do not pick or blow the nose.If you have another nosebleed, try first-aid steps again consult doctor');
+                      }
+                      else if (userInput === 'vomitings') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'vomit') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'vomiting') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'blood vomiting') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'blood vomitings') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'blood in vomitings') {
+                          appendToOutput('medicine name -aprepitant (Emend)');
+                          appendToOutput('Drink gradually larger amounts of clear liquids.');
+                          appendToOutput('Avoid solid food until the vomiting episode has passed');
+                          appendToOutput('take rest consult doctor if they are frequent');
+                          speak('take medicine named aprepitant (Emend).Drinking gradually larger amounts of clear liquids.Avoiding solid food until the vomiting episode has passed.take rest consult doctor if they are frequent');
+                      }
+                      else if (userInput === 'influenza') {
+                          appendToOutput('medicine name - zanamivir (Relenza)');
+                          appendToOutput('These medications may shorten your illness by a day or so and help prevent serious complications.');
+                          appendToOutput('Zanamivir is inhaled through a device similar to an asthma inhaler.');
+                          appendToOutput('dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation). ');
+                          appendToOutput('The recommended dose of RELENZA for treatment of influenza in adults and pediatric patients aged 7 years and older is 10 mg twice daily (approximately 12 hours apart) for 5 days');
+                          appendToOutput('Two doses should be taken on the first day of treatment whenever possible provided there is at least 2 hours between doses');
+                          appendToOutput('On subsequent days, doses should be about 12 hours apart (e.g., morning and evening) at approximately the same time each day');
+                          appendToOutput('The safety and efficacy of repeated treatment courses have not been studied');
+                          appendToOutput('Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy food Call your doctor Manage fever Try to sleep');
+                          speak('medicine name - zanamivir (Relenza).These medications may shorten your illness by a day or so and help prevent serious complications.Zanamivir is inhaled through a device similar to an asthma inhaler.dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation) Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy');
+                      }
+                      else if (userInput === 'flu') {
+                          appendToOutput('medicine name - zanamivir (Relenza)');
+                          appendToOutput('These medications may shorten your illness by a day or so and help prevent serious complications.');
+                          appendToOutput('Zanamivir is inhaled through a device similar to an asthma inhaler.');
+                          appendToOutput('dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation). ');
+                          appendToOutput('The recommended dose of RELENZA for treatment of influenza in adults and pediatric patients aged 7 years and older is 10 mg twice daily (approximately 12 hours apart) for 5 days');
+                          appendToOutput('Two doses should be taken on the first day of treatment whenever possible provided there is at least 2 hours between doses');
+                          appendToOutput('On subsequent days, doses should be about 12 hours apart (e.g., morning and evening) at approximately the same time each day');
+                          appendToOutput('The safety and efficacy of repeated treatment courses have not been studied');
+                          appendToOutput('Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy food Call your doctor Manage fever Try to sleep');
+                          speak('medicine name - zanamivir (Relenza).These medications may shorten your illness by a day or so and help prevent serious complications.Zanamivir is inhaled through a device similar to an asthma inhaler.dosage -The 10-mg dose is provided by 2 inhalations (one 5-mg blister per inhalation) Tips for Recovering from the Flu are take Rest Take medications to manage symptoms Stay hydrated Increase water vapor in the air Eat healthy');
+                      }
+                      else if (userInput === 'hyper tension') {
+                          appendToOutput('medicine name - medicines to hyper tension should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'high blood pressure') {
+                          appendToOutput('medicine name - medicines to hyper tension should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'high b p') {
+                          appendToOutput('medicine name - medicines to hyper tension should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      else if (userInput === 'high bp') {
+                          appendToOutput('medicine name - medicines to high bp should be prescibed by your doctor');
+                          appendToOutput('tips to control - Eating a heart-healthy diet with less salt');
+                          appendToOutput('Getting regular physical activity');
+                          appendToOutput('Maintaining a healthy weight or losing weight');
+                          appendToOutput('Limiting alcohol');
+                          appendToOutput('Not smoking');
+                          appendToOutput('Getting 7 to 9 hours of sleep daily');                   
+                          speak('medicine name - medicines to hyper tension should be prescibed by your doctor tips to control - Eating a heart-healthy diet with less salt Getting regular physical activity Maintaining a healthy weight or losing weight Limiting alcohol Not smoking Getting 7 to 9 hours of sleep daily ');
+                      }
+                      });
+              // Function to clean up transcript (remove trailing period)
+              function cleanTranscript(transcript) {
+                  return transcript.replace(/\.$/, ''); // Removes a trailing period (.) if present
+              }
+      
+              // Function to append text to the output box
+              function appendToOutput(text) {
+                  outputBox.innerHTML += text + '<br>';
+              }
+          </script>
+        </div>
+        <div class="achievements">
+        <pre>
+        <B style="color: red;">INTELLIGENT MEDICATION
+        MANAGEMENT</B>
+        Say goodbye to missed dose and cheotic pill organizers.Our
+        state-of-heart system keeps track of your priscription and regimen.Tracking dosage 
+        and medicine shopping , medicine searching in regional languages.
+        Its time to take control of your health effortlessly. 
+        </pre>
+        </div>
+      </main>
+      <footer class="container-fluid text-center">
+        <img id="social" src="./971657.webp" alt="">
+            Credits to team Medidoct
+      </footer>
+</body>
+</html>

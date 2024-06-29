@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Voice Assistant</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div id="main-container">
+    <p id="input-area">...</p>
+    <p id="output-area">...</p>
+    <label for="language-selector">Select Language:</label>
+    <select id="language-selector" onchange="changeLanguage()">
+      <option value="en-US">English</option>
+      <option value="te">Telugu</option>
+      <option value="hi">Hindi</option>
+    </select>
+    <button id="listen-button" onclick="listen()">Listen</button>
+  </div>
+
+  <script>
+
+const speechSynthesis = window.speechSynthesis;
+
+    function changeLanguage() {
+      const languageSelector = document.getElementById('language-selector');
+      const selectedLanguage = languageSelector.value;
+
+      // Remove any existing script elements
+      const existingScripts = document.querySelectorAll('script[data-language]');
+      existingScripts.forEach(script => {
+        script.remove();
+      });
+
+      // Create a new script element and set its source based on the selected language
+      const script = document.createElement('script');
+      script.setAttribute('data-language', selectedLanguage);
+      if (selectedLanguage === 'en-US') {
+        script.src = 'escript.js'; // English script
+      } else if (selectedLanguage === 'te') {
+        script.src = 'tscript.js'; // Telugu script
+      } else if (selectedLanguage === 'hi') {
+        script.src = 'hscript.js'; // Hindi script
+      }
+      
+      // Append the new script element to the head
+      document.head.appendChild(script);
+
+      function speak(text){
+        const utterance = SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+      }
+    }
+  </script>
+</body>
+</html>

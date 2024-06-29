@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Madurai&family=Lora&family=Nunito:wght@500&family=REM&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+/* Add a gray background color and some padding to the footer */
+footer{
+    background-color: green;
+    padding: 25px;
+    align-items: center;
+    color: black
+}
+/* Center-align the elements within the jumbotron */
+.jumbotron {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh; /* Optional: Center vertically in the viewport */
+    background-color: green; /* Optional: Set a background color */
+
+}
+
+/* Center-align the text within the container */
+.container.text-center {
+    text-align: center;
+    color: white;
+}
+
+
+strong{
+    color: red;
+}
+
+#ig{
+    width: 50px;
+    padding: 1px;
+    border-radius: 20px;
+    border: 4px solid rgb(53, 175, 53);
+    background-color: rgb(53, 175, 53);
+}
+
+#social{
+ width: 20px;
+}

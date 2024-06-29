@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport"
+		content="width=device-width,
+				initial-scale=1.0">
+	<title>Medidoct</title>
+	<link rel="stylesheet"
+		href="dasstyle.css">
+	<link rel="stylesheet"
+		href="responsive.css">
+</head>
+
+<body>
+
+	<!-- for header part -->
+	<header>
+
+		<div class="logosec">
+			<div class="logo"><a href="./homeindex.html" style="color: red;">Medidoct</a></div>
+			
+		</div>
+
+		<div class="searchbar">
+			<div id="main-container">
+				<p id="input-area">...</p>
+				<p id="output-area">...</p>
+				<label for="language-selector">Select Language:</label>
+				<select id="language-selector" onchange="changeLanguage()">
+				  <option value="en-US">English</option>
+				  <option value="te">Telugu</option>
+				  <option value="hi">Hindi</option>
+				</select>
+				<button id="listen-button" onclick="listen()">Listen</button>
+			  </div>
+			
+			  <script>
+			
+			const speechSynthesis = window.speechSynthesis;
+			
+				function changeLanguage() {
+				  const languageSelector = document.getElementById('language-selector');
+				  const selectedLanguage = languageSelector.value;
+			
+				  // Remove any existing script elements
+				  const existingScripts = document.querySelectorAll('script[data-language]');
+				  existingScripts.forEach(script => {
+					script.remove();
+				  });
+			
+				  // Create a new script element and set its source based on the selected language
+				  const script = document.createElement('script');
+				  script.setAttribute('data-language', selectedLanguage);
+				  if (selectedLanguage === 'en-US') {
+					script.src = 'escript.js'; // English script
+				  } else if (selectedLanguage === 'te') {
+					script.src = 'tscript.js'; // Telugu script
+				  } else if (selectedLanguage === 'hi') {
+					script.src = 'hscript.js'; // Hindi script
+				  }
+				  
+				  // Append the new script element to the head
+				  document.head.appendChild(script);
+			
+				  function speak(text){
+					const utterance = SpeechSynthesisUtterance(text);
+					speechSynthesis.speak(utterance);
+				  }
+				}
+			  </script>
+		</div>
+
+		<div class="message">
+			<div class="circle"></div>
+			<div class="dp">
+			<img src=
+"./WIN_20230824_09_52_05_Pro.jpg"
+					class="dpicn"
+					alt="dp">
+			</div>
+		</div>
+
+	</header>
+
+	<div class="main-container">
+		<div class="navcontainer">
+			<nav class="nav">
+				<div class="nav-upper-options">
+					<div class="nav-option option1">
+						<h3> Dashboard</h3>
+					</div>
+
+					<div class="option2 nav-option">
+						<h3>Dosage Tracking</h3>
+					</div>
+
+					<div class="nav-option option3">
+						<h3> Cart</h3>
+					</div>
+
+					<div class="nav-option option4">
+						<h3>Doctor Profile</h3>
+					</div>
+
+					<div class="nav-option option5">
+						<h3>Report</h3>
+					</div>
+
+					<div class="nav-option option6">
+
+						<h3> Settings</h3>
+					</div>
+
+					<div class="nav-option logout">
+						<h3>Logout</h3>
+					</div>
+
+				</div>
+			</nav>
+		</div>
+		<div class="main">
+
+			<div class="searchbar2">
+				<input type="text"
+					name=""
+					id=""
+					placeholder="Search">
+				<div class="searchbtn">
+				<img src=
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+						class="icn srchicn"
+						alt="search-button">
+				</div>
+			</div>
+
+			<div class="box-container">
+
+				<div class="box box1">
+					<div class="text">
+						<h2 class="topic-heading">Dosage Tracking</h2>
+						<h2 class="topic"></h2>
+					</div>
+				</div>
+
+
+				<div class="box box3">
+					<div class="text">
+						<h2 class="topic-heading">Personal Doctor</h2>
+						<h2 class="topic"></h2>
+					</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./index.js"></script>
+</body>
+</html>
